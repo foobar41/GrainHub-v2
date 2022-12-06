@@ -1,14 +1,14 @@
 import "./signup.css";
-import React, { useState } from "react";
+import React, { useState} from "react";
 import Validation from "./Validation";
-
 import { Link } from "react-router-dom"
-
 import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
+import axios from "axios"
 
 function SignUp() {
+    const url = "http://localhost:5000/users"
     const [icon, setIcon] = useState(eyeOff);
     const [type, setType] = useState("password");
 
@@ -20,19 +20,50 @@ function SignUp() {
     });
 
     const [errors, setErrors] = useState({});
+    const [signup, setSignup] = useState();
+
+    const signupMsg = {
+        "fail": "Data already exists!, Try to login",
+        "success": "Successfully logged in!"
+    }
 
     const handlechange = (event) => {
         setValues({ ...values, [event.target.name]: event.target.value });
     };
 
+
+
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        setErrors(Validation(values));
-        
-        const form = document.getElementById('signupForm')
-        const formData = new FormData(form);
-        console.log(formData)
+        const ret = Validation(values)
+        setErrors(ret[0]);
+        const valid = ret[1]
+
+        if (valid) {
+            axios.get(url, { params: { email: values.email } })
+                .then((res) => {
+                    if (res.data.length !== 0) 
+                    {
+                        setSignup("fail")
+                        console.log("exists!!", signup)
+                    }
+                    else {
+                        console.log("doesnt exist", signup)
+                        axios.post(url, values)
+                            .then(
+                                res => { console.log(res.data) }
+                            )
+                            .then(
+                                setSignup("success")
+                            )
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
     };
+
 
     const handleToggle = () => {
         if (type === "password") {
@@ -111,6 +142,10 @@ function SignUp() {
                         {errors.confirm_password && (
                             <p className={'error'}>{errors.confirm_password}</p>
                         )}
+                    </div>
+
+                    <div className='error'>
+                        {signup && (<p>{signupMsg.signup}</p>)}
                     </div>
 
                     <div>

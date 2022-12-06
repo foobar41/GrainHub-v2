@@ -1,14 +1,14 @@
 import "./login.css";
 import React, { useState } from "react";
 import Validation from "./Validation";
-
 import { Link } from "react-router-dom"
-
 import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
+import axios from "axios"
 
 function Login() {
+    const url = "http://localhost:5000/users"
     const [icon, setIcon] = useState(eyeOff);
     const [type, setType] = useState("password");
 
@@ -25,11 +25,19 @@ function Login() {
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        setErrors(Validation(values));
+        const ret = Validation(values)
+        setErrors(ret[0]);
+        const valid = ret[1]
 
-        console.log(Validation(values));
-
-        event.submit();
+        if (valid) {
+            axios.get(url, { params: { email: values.email } })
+                .then((res) => {
+                    console.log(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
     };
 
     const handleToggle = () => {
