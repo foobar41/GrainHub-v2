@@ -1,8 +1,8 @@
-import { Badge } from "@mui/material";
 import { ShoppingCartOutlined } from "@mui/icons-material";
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     margin-top: -15px;
@@ -20,13 +20,6 @@ const Left = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-`;
-
-const Language = styled.span`
-   font-size: 14px;
-
-  cursor: pointer;
-
 `;
 
 const Center = styled.div`
@@ -53,18 +46,27 @@ const MenuItem = styled.div`
 `;
 
 
-const Navbar = () => {
-    const quantity = 0;
-    const user = false;
+export default function Navbar() {
+    const navigate = useNavigate()
 
+    let user = null
+    if (!(localStorage.getItem("user") === null || localStorage.getItem("user") === "undefined")) {
+        user = JSON.parse(localStorage.getItem('user'))
+    }
 
+    const handleLogout = () => {
+        localStorage.clear()
+        navigate('/')
+    }
 
     if (!user) {
         return (
             <Container>
                 <Wrapper>
+                    <Left>
+                    </Left>
                     <Center>
-                        <Logo><Link to={`/`} style={{ textDecoration: 'none', color: 'black' }}>Grain Hub</Link></Logo>
+                        <Logo><Link to={`/`} style={{ textDecoration: 'none', color: 'black' }}>GrainHub</Link></Logo>
                     </Center>
                     <Right>
                         <Link to="/shop" style={{ textDecoration: 'none', color: 'black' }}>
@@ -79,18 +81,9 @@ const Navbar = () => {
                         <Link to="/contactus" style={{ textDecoration: 'none', color: 'black' }}>
                             <MenuItem style={{ textDecoration: 'none', color: 'black' }}>CONTACT US</MenuItem>
                         </Link>
-                        <Link to="/login">
-                            <MenuItem>
-                                <Badge badgeContent={quantity} color="primary">
-                                    <ShoppingCartOutlined />
-                                </Badge>
-                            </MenuItem>
-                        </Link>
                     </Right>
                 </Wrapper>
             </Container>
-
-
         );
     }
     else {
@@ -98,10 +91,9 @@ const Navbar = () => {
             <Container>
                 <Wrapper>
                     <Left>
-                        <Language><Link to={`/`}><img src="../favicon.ico" width="45" height="35" alt=""></img></Link></Language>
                     </Left>
                     <Center>
-                        <Logo><Link to={`/`} style={{ textDecoration: 'none', color: 'black' }}>Grain hub</Link></Logo>
+                        <Logo><Link to={`/`} style={{ textDecoration: 'none', color: 'black' }}>GrainHub</Link></Logo>
                     </Center>
                     <Right>
                         <Link to="/shop" style={{ textDecoration: 'none', color: 'black' }}>
@@ -109,16 +101,14 @@ const Navbar = () => {
                         </Link>
 
                         <Link to={"/user/" + user._id} style={{ textDecoration: 'none', color: 'black' }}>
-                            <MenuItem style={{ textDecoration: 'none', color: 'black' }}>Hello, {user.username.toUpperCase()} </MenuItem>
+                            <MenuItem style={{ textDecoration: 'none', color: 'black' }}>Hello, {user.fullname.toUpperCase()} </MenuItem>
                         </Link>
-                        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
-                            <MenuItem style={{ textDecoration: 'none', color: 'black' }}><b>Logout</b></MenuItem>
-                        </Link>
-                        <Link to="/cart">
+
+                        <MenuItem onClick={handleLogout} style={{ textDecoration: 'none', color: 'black' }}><b>Logout</b></MenuItem>
+
+                        <Link to="/cart" style={{ color: 'black' }}>
                             <MenuItem>
-                                <Badge badgeContent={quantity} color="primary">
-                                    <ShoppingCartOutlined />
-                                </Badge>
+                                <ShoppingCartOutlined />
                             </MenuItem>
                         </Link>
                     </Right>
@@ -127,5 +117,3 @@ const Navbar = () => {
         );
     }
 };
-
-export default Navbar;

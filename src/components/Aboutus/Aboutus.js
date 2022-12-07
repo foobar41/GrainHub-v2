@@ -115,7 +115,7 @@ const Aboutus = () => {
               </SocialContainer>
             </div>
             <div class="image-section">
-              <img src={'https://gensolarenergy.com/wp-content/uploads/2021/06/about-us-1-2048x2048.png'}></img>
+              <img src={'https://gensolarenergy.com/wp-content/uploads/2021/06/about-us-1-2048x2048.png'} href='together'></img>
             </div>
           </div>
         </div>

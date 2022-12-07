@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   background-color: pink;
@@ -70,26 +71,35 @@ const Button = styled.button`
 
 const Shop = () => {
 
+  const navigate = useNavigate()
+
+  const handleUser = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (!user) {
+      alert("You are not logged in")
+      navigate('/')
+    }
+  }
   return (
-      <Container>
-        <Title>Products</Title>
-        <List>
-          <NavLink to="/grain">
-            <Button>Grains</Button>
-            <Image alt="Grain" src="https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=600" />
-          </NavLink>
+    <Container>
+      <Title>Products</Title>
+      <List>
+        <NavLink to="/grain" onClick={handleUser}>
+          <Button>Grains</Button>
+          <Image alt="Grain" src="https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=600" />
+        </NavLink>
 
-          <NavLink to="/vegetable">
-            <Button>Vegetables</Button>
-            <Image alt="Veggie" src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmVnZXRhYmxlc3xlbnwwfHwwfHw%3D&w=1000&q=80" />
-          </NavLink>
+        <NavLink to="/vegetable">
+          <Button>Vegetables</Button>
+          <Image alt="Veggie" src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmVnZXRhYmxlc3xlbnwwfHwwfHw%3D&w=1000&q=80" />
+        </NavLink>
 
-          <NavLink to="/fruit">
-            <Button>Fruits</Button>
-            <Image alt="Fruits" src="https://www.agmrc.org/media/cms/fruit_3F888C649E704.jpg" />
-          </NavLink>
-        </List>
-      </Container>
+        <NavLink to="/fruit">
+          <Button>Fruits</Button>
+          <Image alt="Fruits" src="https://www.agmrc.org/media/cms/fruit_3F888C649E704.jpg" />
+        </NavLink>
+      </List>
+    </Container>
   );
 };
 
