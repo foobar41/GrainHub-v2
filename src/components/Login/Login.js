@@ -18,6 +18,12 @@ function Login() {
     });
 
     const [errors, setErrors] = useState({});
+    const [login, setLogin] = useState("default");
+
+    const loginMsg = {
+        "fail": "Entered incorrect password, try again",
+        "success": "Successfully logged in!"
+    }
 
     const handlechange = (event) => {
         setValues({ ...values, [event.target.name]: event.target.value });
@@ -32,7 +38,10 @@ function Login() {
         if (valid) {
             axios.get(url, { params: { email: values.email } })
                 .then((res) => {
-                    console.log(res.data);
+                    const val = res.data[0]
+                    if (val.password !== values.password) setLogin("fail")
+                    else setLogin("success")
+
                 })
                 .catch((err) => {
                     console.log(err);
@@ -60,7 +69,7 @@ function Login() {
                     <h2 className='title'> Login</h2>
                 </div>
 
-                <form className='form_wrapper'>
+                <form className='form_wrapper'  onSubmit={handleFormSubmit}>
                     <div className='email'>
                         <label className='label'> Email</label>
                         <input
@@ -91,8 +100,12 @@ function Login() {
                         )}
                     </div>
 
+                    <div className='error'>
+                        <p>{login !== "default" && loginMsg[login]}</p>
+                    </div>
+
                     <div>
-                        <button className='submit' onClick={handleFormSubmit}>
+                        <button className='submit'>
                             Login
                         </button>
                     </div>

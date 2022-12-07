@@ -34,6 +34,41 @@
       "password": "12345678",
       "confirm_password": "12345678",
       "id": 6
+    },
+    {
+      "fullname": "satya",
+      "email": "sat@sat.com",
+      "password": "12345678",
+      "confirm_password": "12345678",
+      "id": 7
+    },
+    {
+      "fullname": "satya",
+      "email": "hey@hey.com",
+      "password": "12345678",
+      "confirm_password": "12345678",
+      "id": 8
+    },
+    {
+      "fullname": "satya",
+      "email": "bro@bro.com",
+      "password": "12345678",
+      "confirm_password": "12345678",
+      "id": 9
+    },
+    {
+      "fullname": "akhil",
+      "email": "aknew@gam.com",
+      "password": "12345678",
+      "confirm_password": "12345678",
+      "id": 10
+    },
+    {
+      "fullname": "akhil",
+      "email": "hey@asd.com",
+      "password": "12345678",
+      "confirm_password": "12345678",
+      "id": 11
     }
   ]
 }

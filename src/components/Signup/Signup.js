@@ -1,5 +1,5 @@
 import "./signup.css";
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import Validation from "./Validation";
 import { Link } from "react-router-dom"
 import { Icon } from "react-icons-kit";
@@ -20,18 +20,20 @@ function SignUp() {
     });
 
     const [errors, setErrors] = useState({});
-    const [signup, setSignup] = useState();
+    const [signup, setSignup] = useState("default");
 
     const signupMsg = {
         "fail": "Data already exists!, Try to login",
-        "success": "Successfully logged in!"
+        "success": "Successfully registered, Welcome!"
     }
 
     const handlechange = (event) => {
         setValues({ ...values, [event.target.name]: event.target.value });
     };
 
-
+    // useEffect(() => {
+    //     console.log(signup, signupMsg[signup])
+    // }, [signup])
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -45,10 +47,8 @@ function SignUp() {
                     if (res.data.length !== 0) 
                     {
                         setSignup("fail")
-                        console.log("exists!!", signup)
                     }
                     else {
-                        console.log("doesnt exist", signup)
                         axios.post(url, values)
                             .then(
                                 res => { console.log(res.data) }
@@ -85,7 +85,7 @@ function SignUp() {
                     <h2 className='title'> Create Account</h2>
                 </div>
 
-                <form id='signupForm' className='form_wrapper'>
+                <form id='signupForm' className='form_wrapper'  onSubmit={handleFormSubmit}>
                     <div className='name'>
                         <label className='label'> FullName</label>
                         <input
@@ -145,11 +145,11 @@ function SignUp() {
                     </div>
 
                     <div className='error'>
-                        {signup && (<p>{signupMsg.signup}</p>)}
+                        <p>{signup !== "default" && signupMsg[signup]}</p>
                     </div>
 
                     <div>
-                        <button className='submit' onClick={handleFormSubmit}>
+                        <button className='submit'>
                             SIGN UP
                         </button>
                     </div>
