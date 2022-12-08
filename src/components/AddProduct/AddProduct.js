@@ -2,8 +2,8 @@ import "./addproduct.css";
 import React, { useState } from "react";
 import data from "../Cart/cartData"
 import Validation from "./Validation";
-
 import { Link } from "react-router-dom"
+import axios from "axios";
 
 function AddProduct() {
     const [values, setValues] = useState({
@@ -22,7 +22,17 @@ function AddProduct() {
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        setErrors(Validation(values));
+        const ret = Validation(values)
+        setErrors(ret[0]);
+        const valid = ret[1]
+
+        if (valid) {
+            const url = "http://localhost:5000/quantity"
+            axios.post(url, values)
+            .then(res => {
+                console.log(res.data)
+            })
+        }
     };
 
     return (
@@ -35,7 +45,7 @@ function AddProduct() {
                     <h2 className='title'>Add Product</h2>
                 </div>
 
-                <form className='form_wrapper'>
+                <form className='form_wrapper' onSubmit={handleFormSubmit}>
                     <div className='prodname'>
                         <p>Select type of product</p>
                         <input
@@ -96,7 +106,7 @@ function AddProduct() {
                     </div>
 
                     <div>
-                        <button className='submit' onClick={handleFormSubmit}>
+                        <button className='submit'>
                             Submit
                         </button>
                     </div>

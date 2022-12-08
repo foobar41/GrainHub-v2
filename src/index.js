@@ -10,6 +10,7 @@ import CartApp from './components/Cart/CartApp'
 import Aboutus from './components/Aboutus/Aboutus'
 import ContactForm from './components/Contactus/ContactForm'
 import Faq from "./components/Faq/Faq"
+import NewCart from "./components/Cart/newCart"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +26,7 @@ root.render(
         <Route exact path="/grain" element={<CartApp type="grain"/>} />
         <Route exact path="/vegetable" element={<CartApp type="vegetable"/>} />
         <Route exact path="/fruit" element={<CartApp type="fruit" />} />
+        {/* <Route exact path="/cart" element={<NewCart />} /> */}
         <Route exact path="/faq" element={<Faq />} />
       </Routes>
   </Router>

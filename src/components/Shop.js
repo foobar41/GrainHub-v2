@@ -77,7 +77,7 @@ const Shop = () => {
     const user = JSON.parse(localStorage.getItem('user'))
     if (!user) {
       alert("You are not logged in")
-      navigate('/')
+      navigate("/")
     }
   }
   return (

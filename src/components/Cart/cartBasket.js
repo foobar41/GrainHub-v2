@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios"
 
 export default function Basket(props) {
   const { cartItems, onAdd, onRemove } = props;
@@ -6,6 +7,27 @@ export default function Basket(props) {
   const taxPrice = itemsPrice * 0.14;
   const shippingPrice = itemsPrice > 2000 ? 0 : 20;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
+
+  const handleCheckout = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(cartItems)
+    const url = "http://localhost:5000/orders"
+    const { image, ...products } = cartItems
+    const data = {
+      "email": user.email,
+      "products": { ...products }
+    }
+    axios.post(url, data)
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+
+  }
+
   return (
     <aside className="block col-1">
       <h2>Cart Items</h2>
@@ -56,8 +78,8 @@ export default function Basket(props) {
               </div>
             </div>
             <hr />
-            <div className="row">
-              <button onClick={() => alert('Implement Checkout!')}>
+            <div className="checkoutButton">
+              <button onClick={handleCheckout}>
                 Checkout
               </button>
             </div>

@@ -1,5 +1,6 @@
 function Validation(values) {
-    let errors={}
+    let errors = {}
+    let valid = false
     if(!values.food){
         errors.food="This field is required"
     }
@@ -15,7 +16,8 @@ function Validation(values) {
         errors.quantity="Quantity must be a number only"
     }
 
-  return errors;
+    if (Object.keys(errors).length === 0) valid=true
+    return [errors, valid];
 }
 
 export default Validation
