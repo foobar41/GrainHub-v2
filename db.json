@@ -324,9 +324,50 @@
       }
     ]
   },
-  "quantity": {
-    "food": "grain",
-    "product": "Wheat",
-    "quantity": "12"
-  }
+  "quantity": [
+    {
+      "food": "grain",
+      "product": "Oats",
+      "quantity": "0",
+      "id": 3
+    },
+    {
+      "food": "fruit",
+      "product": "Guava",
+      "quantity": "0",
+      "id": 4
+    },
+    {
+      "food": "fruit",
+      "product": "Banana",
+      "quantity": "25",
+      "id": 5
+    },
+    {
+      "food": "grain",
+      "product": "Rye",
+      "quantity": "10",
+      "id": 10
+    },
+    {
+      "food": "grain",
+      "product": "Paddy",
+      "quantity": "3",
+      "id": 13
+    },
+    {
+      "food": "vegetable",
+      "product": "Onion",
+      "quantity": "45",
+      "id": 14
+    }
+  ],
+  "contact": [
+    {
+      "name": "hey",
+      "email": "a@a.com",
+      "message": "1212",
+      "id": 1
+    }
+  ]
 }

@@ -9,11 +9,11 @@ function AddProduct() {
     const [values, setValues] = useState({
         food: "",
         product: "",
-        quantity: ""
+        quantity: null
     });
-
     const [food, setFood] = useState()
     const [errors, setErrors] = useState({})
+
 
     const handlechange = (event) => {
         !food && setFood(data[event.target.value])
@@ -28,10 +28,31 @@ function AddProduct() {
 
         if (valid) {
             const url = "http://localhost:5000/quantity"
-            axios.post(url, values)
-            .then(res => {
-                console.log(res.data)
-            })
+            axios.get(url, { params: { product: values.product } })
+                .then((res) => {
+                    if (res.data.length !== 0) {
+                        fetch(url + `/${res.data[0].id}`, {
+                            method: 'DELETE'
+                        })
+                        axios.post(url, values)
+                            .then(res => {
+                                console.log(res.data)
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+
+
+                    } else {
+                        axios.post(url, values)
+                            .then(res => {
+                                console.log(res.data)
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    }
+                })
         }
     };
 
@@ -84,8 +105,8 @@ function AddProduct() {
 
                     <div className='product'>
                         <select value={values.product} onChange={handlechange} name="product" id="product">
-                        <option htmlfor="product">Select</option>
-                        {food && food.map (item => <option key={item.id} value={item.name} htmlFor="product">{item.name}</option>)}
+                            <option htmlfor="product">Select</option>
+                            {food && food.map(item => <option key={item.id} value={item.name} htmlFor="product">{item.name}</option>)}
                         </select>
                         {errors.product && (
                             <p className='error'>{errors.product}</p>
@@ -97,6 +118,7 @@ function AddProduct() {
                         <input
                             className='input'
                             name="quantity"
+                            type="number"
                             value={values.quantity}
                             onChange={handlechange}
                         ></input>

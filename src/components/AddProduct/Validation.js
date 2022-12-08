@@ -14,6 +14,9 @@ function Validation(values) {
     }
     else if(isNaN(values.quantity)) {
         errors.quantity="Quantity must be a number only"
+    } 
+    else if(values.quantity === 0) {
+        errors.quantity="Quantity cannot be zero"
     }
 
     if (Object.keys(errors).length === 0) valid=true

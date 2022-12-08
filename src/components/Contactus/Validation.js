@@ -1,6 +1,7 @@
 import validator from 'validator'
 function Validation(values) {
-    let errors={}
+    let errors = {}
+    let valid = false
     if(!values.name){
         errors.name="name is required"
     }
@@ -16,7 +17,8 @@ function Validation(values) {
         errors.message="please enter message"
     }
 
-  return errors;
+    if (Object.keys(errors).length === 0) valid=true
+    return [errors, valid];
 }
 
 export default Validation

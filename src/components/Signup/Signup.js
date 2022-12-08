@@ -37,6 +37,7 @@ function SignUp() {
         const ret = Validation(values)
         setErrors(ret[0]);
         const valid = ret[1]
+        console.log(values)
 
         if (valid) {
             axios.get(url, { params: { email: values.email } })

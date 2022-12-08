@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import "./ContactForm.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Validation from './Validation'
+import axios from "axios"
 
 
 function ContactForm() {
-
+  const navigate = useNavigate()
+  const url = "http://localhost:5000/contact"
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -20,7 +22,21 @@ function ContactForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setErrors(Validation(values));
+    const ret = Validation(values)
+    setErrors(ret[0]);
+    const valid = ret[1]
+
+    if (valid) {
+      axios.post(url, values)
+        .then(res => {
+          console.log(res.data)
+          alert("Your query has been sent, please wait for a response")
+          navigate('/')
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   };
 
 
@@ -50,33 +66,33 @@ function ContactForm() {
                 <i className='fas fa-user'></i>
               </div>
               <div class="field">
-                <input 
-                  type="email" 
-                  name="email" 
-                  id="email" 
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
                   placeholder="Enter your email"
                   value={values.email}
                   onChange={handlechange}
-                  >
-                  </input>
-                  {errors.email && (
+                >
+                </input>
+                {errors.email && (
                   <p className='error'>{errors.email}</p>
                 )}
                 <i className='fas fa-envelope'></i>
               </div>
             </div>
             <div class="message">
-              <textarea 
-              placeholder="Write your message" 
-              id="message" 
-              name="message"
-              value={values.message}
-              onChange={handlechange}
+              <textarea
+                placeholder="Write your message"
+                id="message"
+                name="message"
+                value={values.message}
+                onChange={handlechange}
               >
               </textarea>
               {errors.message && (
-                  <p className='error'>{errors.message}</p>
-                )}
+                <p className='error'>{errors.message}</p>
+              )}
               <i className="material-icons"></i>
             </div>
             <div class="button-area"><center>
